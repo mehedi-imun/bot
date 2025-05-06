@@ -27,7 +27,7 @@ const client = new Client({
 // ---- Whitelisted usernames only (no discriminator) ----
 const allowedUsernames = [
   'coolguy',
-  'hello_rakib',
+  'hello_raki',
   'bottester',
 ];
 
