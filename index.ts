@@ -27,7 +27,7 @@ const client = new Client({
 // ---- Whitelisted users (by username#discriminator) ----
 const allowedUsers = [
   'CoolGuy#1234',
-  'JaneDoe#5678',
+  'hello_rakib',
   'BotTester#9999',
 ];
 
