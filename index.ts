@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// ---- Express (Optional: uptime monitoring) ----
+// ---- Express (Optional: for uptime pinging) ----
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -24,11 +24,11 @@ const client = new Client({
   ],
 });
 
-// ---- Whitelisted users (by username#discriminator) ----
-const allowedUsers = [
-  'CoolGuy#1234',
+// ---- Whitelisted usernames only (no discriminator) ----
+const allowedUsernames = [
+  'coolguy',
   'hello_rakib',
-  'BotTester#9999',
+  'bottester',
 ];
 
 client.once(Events.ClientReady, () => {
@@ -36,24 +36,24 @@ client.once(Events.ClientReady, () => {
 });
 
 client.on(Events.GuildMemberAdd, async (member) => {
-  const userTag = `${member.user.username}#${member.user.discriminator}`;
-  console.log(`➡️ Member joined: ${userTag}`);
+  const username = member.user.username.toLowerCase();
+  console.log(`➡️ Member joined: ${username}`);
 
-  if (!allowedUsers.includes(userTag)) {
+  if (!allowedUsernames.includes(username)) {
     try {
       await member.send('⛔ You are not on the access list. Please contact an admin.');
     } catch {
-      console.warn(`⚠️ Could not DM ${userTag}`);
+      console.warn(`⚠️ Could not DM ${username}`);
     }
 
     try {
       await member.kick('User not on whitelist');
-      console.log(`❌ Kicked: ${userTag}`);
+      console.log(`❌ Kicked: ${username}`);
     } catch (err) {
-      console.error(`❌ Failed to kick ${userTag}:`, err);
+      console.error(`❌ Failed to kick ${username}:`, err);
     }
   } else {
-    console.log(`✅ Allowed: ${userTag}`);
+    console.log(`✅ Allowed: ${username}`);
   }
 });
 
